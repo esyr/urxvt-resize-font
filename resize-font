@@ -120,8 +120,10 @@ sub set_font {
 sub update_font_size {
   my ($self, $font, $delta) = @_;
   my $regex = qr"(?<=size=)(\d+)";
+  my $regex_x = qr"^(-[^-]*-[^-]*-[^-]*-[^-]*-[^-]*-[^-]*-)(\d+)";
   my $current = get_font($self, $font->{'name'});
   $current =~ s/$regex/$1+$delta/e;
+  $current =~ s/$regex_x/$1 . ($2+$delta)/e;
   set_font($self, $font, $current);
 }
 

@@ -35,12 +35,16 @@ my @fonts = (
   {'name' => 'boldItalicFont', 'code' => 713},
 );
 
+my $step = 2;
+
 sub on_start {
   my ($self) = @_;
 
   foreach (@fonts) {
     $_->{'default'} = $self->resource($_->{'name'});
   }
+
+  $step = $self->x_resource("resize-font.step") || 2;
 }
 
 sub on_init {
@@ -72,13 +76,13 @@ sub on_user_command {
   if ($string =~ /bigger$/) {
     foreach (@fonts) {
       next if not defined($_->{'default'});
-      update_font_size($self, $_, +2);
+      update_font_size($self, $_, +$step);
     }
   }
   elsif ($string =~ /smaller$/) {
     foreach (@fonts) {
       next if not defined($_->{'default'});
-      update_font_size($self, $_, -2);
+      update_font_size($self, $_, -$step);
     }
   }
   elsif ($string =~ /reset$/) {
